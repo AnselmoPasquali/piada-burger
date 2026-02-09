@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+  <title>PDF Viewer</title>
+  <style>
+    html, body { height: 100%; margin: 0; background: #111; }
+    /* riempi tutto lo schermo */
+    #frame { width: 100%; height: 100%; border: 0; display: block; }
+  </style>
+</head>
+<body>
+  <!-- PDF.js viewer ufficiale via CDN, con fit-to-page -->
+  <iframe id="frame"></iframe>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const file = params.get("file") || "pdf-mattina.pdf";
+
+    // viewer PDF.js con: page-fit (pagina intera) + toolbar
+    const viewerUrl =
+      "https://mozilla.github.io/pdf.js/web/viewer.html" +
+      "?file=" + encodeURIComponent(location.origin + location.pathname.replace(/\/[^\/]*$/, "/") + file) +
+      "#page=1&zoom=page-fit";
+
+    document.getElementById("frame").src = viewerUrl;
+  </script>
+</body>
+</html>
