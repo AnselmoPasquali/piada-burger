@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Menu</title>
   <style>
     html, body { height: 100%; margin: 0; }
@@ -10,7 +10,7 @@
   </style>
 </head>
 <body>
-  <iframe id="v" src="" title="PDF"></iframe>
+  <iframe id="frame" src="" title="Menu PDF"></iframe>
 
   <script>
     const PDF_00_00_TO_15_00 = "pdf-mattina.pdf";
@@ -26,15 +26,17 @@
       const h = Number(parts.find(p => p.type === "hour").value);
       const m = Number(parts.find(p => p.type === "minute").value);
 
-      const isFirst = (h < 15) || (h === 15 && m === 0);
-      return isFirst ? PDF_00_00_TO_15_00 : PDF_15_01_TO_23_59;
+      // mattina: 00:00 → 15:00 (incluso 15:00)
+      // pomeriggio: 15:01 → 23:59
+      const isMorning = (h < 15) || (h === 15 && m === 0);
+      return isMorning ? PDF_00_00_TO_15_00 : PDF_15_01_TO_23_59;
     }
 
     function update() {
       const pdf = currentPdfRome();
       const url = "viewer.html?file=" + encodeURIComponent(pdf);
-      const frame = document.getElementById("v");
 
+      const frame = document.getElementById("frame");
       if (frame.dataset.current !== url) {
         frame.src = url;
         frame.dataset.current = url;
